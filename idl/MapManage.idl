@@ -1,0 +1,34 @@
+#ifndef MapManage_idl
+#define MapManage_idl
+
+
+#include "BasicDataType.idl"
+#include "ExtendedDataTypes.idl"
+#include "InterfaceDataTypes.idl"
+
+
+module Mapper{
+
+	struct MapId {
+		/// x position of splited map 
+		unsigned int x;
+		/// y position of splited map
+		unsigned int y;
+	};
+
+	typedef sequence<MapId> MapIdList;
+
+	typedef sequence<OGMap> OGMapList;
+
+	/*!
+	 * @interface OGMapper
+	 * @brief Occupancy Grid Map Builder Service Interface
+	 */
+
+	interface OGMapManager {
+		RTC::RETURN_VALUE initializeMapOrigin(in TimedPose2D origin)
+		RTC::RETURN_VALUE requestCurrentBuildMap(in MapIdList mapids in TimedPose2D currentRelativePose out OGMapList)
+    };
+};
+
+#endif
