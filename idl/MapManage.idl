@@ -18,16 +18,35 @@ module Mapper{
 
 	typedef sequence<MapId> MapIdList;
 
-	typedef sequence<OGMap> OGMapList;
+	struct OGSplitMapConfig {
+		/// Scale on the x axis (meters per cell)
+		double xScale;
+		/// Scale on the y axis (meters per cell)
+		double yScale;
+		// number of cells along the x axis
+		unsigned long width;
+		// number of cells along the y axis
+		unsigned long height;
+
+	};
+
+	struct OGSplitMap {
+		Time tm;
+		MapId mapId;
+		OGSplitMapConfig config;
+		OGMapTile map;
+	};
+
+	typedef sequence<OGSplitMapConfig> OGSpliteMapList;
 
 	/*!
 	 * @interface OGMapper
 	 * @brief Occupancy Grid Map Builder Service Interface
 	 */
 
-	interface OGMapManager {
+	interface OGSplitedMapServer {
 		RTC::RETURN_VALUE initializeMapOrigin(in TimedPose2D origin)
-		RTC::RETURN_VALUE requestCurrentBuildMap(in MapIdList mapids in TimedPose2D currentRelativePose out OGMapList)
+		RTC::RETURN_VALUE requestCurrentBuildMap(in MapIdList mapids in TimedPose2D currentRelativePose out OGSplitMapList)
     };
 };
 
